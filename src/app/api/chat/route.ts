@@ -1,7 +1,7 @@
 import { neon } from "@neondatabase/serverless";
 import { NextResponse } from "next/server";
 
-const sql = neon(process.env.DATABASE_URL!);
+const sql = neon(process.env.APP_DATABASE_URL || process.env.DATABASE_URL!);
 
 type Rule = { intent: string; keywords: string[]; reply: string };
 
@@ -25,7 +25,8 @@ export async function POST(req: Request) {
   const match = rules.find((rule) =>
     rule.keywords.some((k) => text.includes(normalize(k)))
   );
-
+     const intent = match?.intent ?? "fallback";
+  await sql`INSERT INTO chat_logs (message, intent) VALUES (${String(message ?? "")}, ${intent})`;
   return NextResponse.json({
     intent: match?.intent ?? "fallback",
     reply:
