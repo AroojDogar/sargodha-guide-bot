@@ -1,0 +1,57 @@
+[
+  {
+    "intent": "about_city",
+    "keywords": ["about sargodha", "tell me about", "city info", "introduction", "history"],
+    "reply": "Sargodha is a city in Punjab, Pakistan, known as the \"City of Eagles\" because of the PAF base located here. It is also famous across the country for its citrus fruit, especially kinnow."
+  },
+  {
+    "intent": "kinnow",
+    "keywords": ["kinnow", "kinno", "orange", "oranges", "citrus", "fruit"],
+    "reply": "Sargodha is called the citrus capital of Pakistan. Its kinnow is sold all over the country and exported abroad. The best season is roughly December to March."
+  },
+  {
+    "intent": "university",
+    "keywords": ["university", "uos", "university of sargodha", "education", "study", "admission"],
+    "reply": "The University of Sargodha is the main public university in the city, offering programs in sciences, arts, IT, commerce and business. For admissions, check the official university website."
+  },
+  {
+    "intent": "places",
+    "keywords": ["places", "visit", "tourist", "sightseeing", "park", "parks", "company bagh", "where to go"],
+    "reply": "Popular places in Sargodha include Company Bagh (a historic public park), the Kirana Hills on the edge of the city, and local bazaars for shopping. Ask me about food or shopping for more ideas!"
+  },
+  {
+    "intent": "food",
+    "keywords": ["food", "eat", "restaurant", "restaurants", "hungry", "dinner", "lunch"],
+    "reply": "Sargodha has plenty of desi food spots serving karahi, BBQ, and chai, plus fast food chains in the main commercial areas. Don't leave without trying fresh kinnow juice in season!"
+  },
+  {
+    "intent": "shopping",
+    "keywords": ["shopping", "shop", "market", "bazaar", "bazar", "mall"],
+    "reply": "For shopping, the city's main bazaars are great for clothes, shoes and everyday items. University Road and the Satellite Town area have many modern shops too."
+  },
+  {
+    "intent": "weather",
+    "keywords": ["weather", "temperature", "climate", "summer", "winter", "rain"],
+    "reply": "Sargodha has very hot summers (May to August) and mild, pleasant winters (November to February). Winter is the best time to visit."
+  },
+  {
+    "intent": "emergency",
+    "keywords": ["emergency", "ambulance", "rescue", "police", "help number", "hospital"],
+    "reply": "Emergency numbers in Punjab: Rescue 1122 (ambulance and fire), Police 15. For serious medical needs, go to the nearest government hospital."
+  },
+  {
+    "intent": "goodbye",
+    "keywords": ["bye", "goodbye", "allah hafiz", "khuda hafiz", "see you"],
+    "reply": "Allah Hafiz! Enjoy your time in Sargodha. Come back anytime you need help."
+  },
+  {
+    "intent": "thanks",
+    "keywords": ["thanks", "thank you", "thank u", "thx", "shukriya", "jazakallah"],
+    "reply": "You're welcome! Happy to help. Is there anything else you'd like to know about Sargodha?"
+  },
+  {
+    "intent": "greeting",
+    "keywords": ["hi", "hello", "hey", "salam", "assalam o alaikum", "assalamualaikum", "aoa", "good morning", "good evening"],
+    "reply": "Wa Alaikum Assalam! Welcome to Sargodha City Guide. Ask me about places, food, weather, the university, kinnow, or emergency numbers."
+  }
+]
