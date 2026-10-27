@@ -1,13 +1,6 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
-import rules from "./rules.json";
-
-type Rule = {
-  intent: string;
-  keywords: string[];
-  reply: string;
-};
 
 type Message = {
   id: number;
@@ -51,36 +44,24 @@ const FACTS = [
 
 // ---------- Chatbot logic ----------
 
-function normalize(text: string): string {
-  return text.toLowerCase().replace(/\s+/g, " ").trim();
-}
-
-function escapeRegex(text: string): string {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-// Whole-word match: "hi" matches "hi there" but not "this"
-function containsWholeWord(message: string, keyword: string): boolean {
-  const pattern = new RegExp(`(^|[^a-z0-9])${escapeRegex(keyword)}($|[^a-z0-9])`);
-  return pattern.test(message);
-}
-
-function getBotReply(userText: string): string {
-  const message = normalize(userText);
-
-  for (const rule of rules as Rule[]) {
-    const matched = rule.keywords.some((keyword) =>
-      containsWholeWord(message, normalize(keyword))
-    );
-    if (matched) return rule.reply;
+async function getBotReply(userText: string): Promise<string> {
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userText }),
+    });
+    if (!res.ok) return FALLBACK_MESSAGE;
+    const data: { reply?: string } = await res.json();
+    return data.reply ?? FALLBACK_MESSAGE;
+  } catch {
+    return "Sorry, I can't connect right now. Please try again in a moment.";
   }
-
-  return FALLBACK_MESSAGE;
 }
-
 function currentTime(): string {
   return new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
 }
+
 
 // ---------- Small UI pieces ----------
 
@@ -131,7 +112,7 @@ export default function Home() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  function sendMessage(rawText: string) {
+   async function sendMessage(rawText: string) {
     const text = rawText.trim();
     if (!text || isTyping) return;
 
@@ -139,14 +120,20 @@ export default function Home() {
     setInput("");
     setIsTyping(true);
 
-    typingTimer.current = setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        { id: nextId.current++, sender: "bot", text: getBotReply(text), time: currentTime() },
-      ]);
-      setIsTyping(false);
-      inputRef.current?.focus();
-    }, TYPING_DELAY);
+    // Database se jawab aur typing delay dono ka intezar
+    const [reply] = await Promise.all([
+      getBotReply(text),
+      new Promise((resolve) => {
+        typingTimer.current = setTimeout(resolve, TYPING_DELAY);
+      }),
+    ]);
+
+    setMessages((prev) => [
+      ...prev,
+      { id: nextId.current++, sender: "bot", text: reply, time: currentTime() },
+    ]);
+    setIsTyping(false);
+    inputRef.current?.focus();
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
